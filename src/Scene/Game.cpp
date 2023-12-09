@@ -109,6 +109,7 @@ void Game::Update()
 
 	if (is_game)
 	{
+		fence_manage->Update();
 		player->Update();									// プレイヤー
 		//villager_spawn_manage->Update();															// 村人(保護対象)スポナー管理
 		//enemy_spawn_manage->Update();																// 敵スポナー管理

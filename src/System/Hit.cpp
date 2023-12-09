@@ -29,6 +29,12 @@ bool CheckBoxHit3D(Vector3 box_pos1, Vector3 box_size1, Vector3 box_pos2, Vector
 	float front1 = box_pos1.z + box_size1.z;
 	float back1 = box_pos1.z - box_size1.z;
 
+	//float right2 = box_pos2.x + box_size2.x;
+	//float left2 = box_pos2.x - box_size2.x;
+	//float up2 = box_pos2.y + box_size2.y;
+	//float down2 = box_pos2.y - box_size2.y;
+	//float front2 = box_pos2.z + box_size2.z;
+	//float back2 = box_pos2.z - box_size2.z;
 	float right2 = box_pos2.x + box_size2.x;
 	float left2 = box_pos2.x - box_size2.x;
 	float up2 = box_pos2.y + box_size2.y;

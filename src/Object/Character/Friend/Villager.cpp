@@ -153,10 +153,10 @@ void Villager::Update()
 	// ò
 	for (auto& f_obj : fences_)
 	{
-		if (CheckBoxHit3D(object_position_, object_box_size_, f_obj->GetterFencePosition(), f_obj->GetterFenceSize()))
+		if (CheckBoxHit3D(object_position_, object_box_size_, f_obj->GetterFencePosition(), f_obj->GetterFenceCollisionSize()))
 		{
 			object_position_ = HitCollision(object_position_, before_pos, object_box_size_,
-				f_obj->GetterFencePosition(), f_obj->GetterFenceSize());
+				f_obj->GetterFencePosition(), f_obj->GetterFenceCollisionSize());
 			object_position_.y = 0.0f;
 		}
 	}
