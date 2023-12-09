@@ -31,6 +31,7 @@ void VillagerManager::Update(const Vector3& p_pos)
 	// ‘S‘ºl‹¤’Ê‚Ì‘ºl“¯Žm‚Ì“–‚½‚è”»’è
 	HitOtherVillagers();
 
+	int num = 0;
 	for (auto& v_obj : villagers_)
 	{
 		if (v_obj != NULL)
@@ -38,8 +39,14 @@ void VillagerManager::Update(const Vector3& p_pos)
 			v_obj->SetPlayerInfomation(p_pos);
 			v_obj->SetFenceInfo(fences_);
 			v_obj->Update();
+
+			if (v_obj->GetterIsGoal())
+			{
+				++num;
+			}
 		}
 	}
+	villagersgoal_num = num;
 
 #if SHOW_DEBUG
 	for (auto& v_obj : villagers_)
@@ -105,6 +112,11 @@ void VillagerManager::HitOtherVillagers()
 std::vector<Villager*> VillagerManager::GetterVillagers() const
 {
 	return villagers_;
+}
+
+int VillagerManager::GetterGoalVillager() const
+{
+	return villagersgoal_num;
 }
 
 //std::vector<Villager*> VillagerManager::GetterVillagers() const

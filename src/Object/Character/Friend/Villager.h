@@ -44,16 +44,16 @@ public:
 
 	// 追いかけるオブジェクトを探す
 	// pos : 追いかける対象の位置
-	void SearchFollowObject(Vector3 pos);
+	void SearchPlayer(Vector3 pos);
 
 	// プレイヤーに追従するかのフラグ
 	// flag : true  - 追従する
 	//		: false - 追従しない 
 	void IsAlwaysFollow(bool flag);
 
-	// プレイヤーに追従する
-	// vec : プレイヤーとのベクトル
-	void Follow(Vector3 vec);
+	// 指定した位置まで移動させる
+	// vec : 指定する位置
+	void FollowObject(Vector3 vec);
 
 	// ゴールに到達したときの処理
 	void GoalAction();
@@ -70,6 +70,8 @@ public:
 	int GetterMyID() const;
 	// 自身の敵との接触状態を渡す
 	bool GetterIsCollidingWithEnemy() const;
+	// 自身が目的地に到達したかどうかを渡す
+	bool GetterIsGoal() const;
 
 	//---------------------------------
 	// セッター関数
@@ -91,6 +93,9 @@ private:
 	bool is_colliding_with_enemy_;		// 敵と接触しているかどうか
 
 	bool is_search_ = true;				// プレイヤーを探索するかどうか
+	bool is_goal_ = false;				// ゴールしたかどうか
+
+	bool is_render_ = true;			// 描画するかどうか
 
 	// 他オブジェクト情報格納用変数
 	std::vector<Fence*> fences_;		// 柵

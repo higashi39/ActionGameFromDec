@@ -45,8 +45,10 @@ Villager::Villager(Vector3 pos, int id)
 	// 自身のモデル情報を渡す
 	FetchObjectModel(*object_model_);
 	// キャラクターにつけたいアニメーション情報を設定する
-	SettingAnimation({ {"idle", "data/villager_female/animation/Idle.mv1", 0, random, 0.5f},
-					   {"runaway", "data/villager_female/animation/Runaway.mv1", 0, 0.0f, 0.5f} });
+	SettingAnimation({ {"idle", "data/villager/animation/Idle.mv1", 0, random, 0.5f},
+					   {"runaway", "data/villager/animation/Runaway.mv1", 0, 0.0f, 0.5f},
+					   {"runforgoal", "data/villager/animation/RunForGoal.mv1", 0, 0.0f, 0.5f},
+					   { "death", "data/villager/animation/Death.mv1", 0, 0.0f, 0.5f } });
 	// 自身のモデルに各アニメーションをアタッチする
 	AttachAnimation();
 }
@@ -58,6 +60,8 @@ Villager::~Villager()
 
 void Villager::Update()
 {
+	if (!is_render_) return;
+
 	// １フレーム前の座標を保管しておく
 	Vector3 before_pos;
 	before_pos = object_position_;
@@ -67,28 +71,54 @@ void Villager::Update()
 	{
 	case VillagerStatus::Idle:			// 待機
 		is_search_ = true;
+
+		// アニメーション(待機中(立ち止まっている))
+		PlayLoopAnimation("idle");
+
 		break;
 	case VillagerStatus::FollowPlayer:	// プレイヤーについていく
 		is_search_ = true;
+
+		// アニメーション(プレイヤー追尾)
+		PlayLoopAnimation("runaway");
 		break;
 	case VillagerStatus::Damaged:		// 攻撃を受ける
 		is_search_ = false;
+
 		break;
 	case VillagerStatus::GoalPoint:		// 目的地に到達
 		is_search_ = false;
+
+		// アニメーション(目的地に向かう)
+		PlayLoopAnimation("runforgoal");
 		// 目的地に到着したあとの処理をおこなう
 		GoalAction();
 		break;
 	case VillagerStatus::KnockDown:		// ダウン
 		is_search_ = false;
+
+		// アニメーション(ダウン)
+		PlayLoopAnimation("death");
 		break;
 	}
 
-	// 一定の処理をしていないとき
-	if (is_search_)
+	if (is_goal_)
 	{
-		// 常にプレイヤーを探す
-		SearchFollowObject(player_position_);
+
+	}
+	else
+	{
+		// 一定の処理をしていないとき
+		if (is_search_)
+		{
+			// 常にプレイヤーを探す
+			SearchPlayer(player_position_);
+		}
+		if (is_player_follow_)
+		{
+			// ステータスを「プレイヤーについていく」にする
+			SetterStatus(VillagerStatus::FollowPlayer);
+		}
 	}
 
 	//if (is_player_follow_)
@@ -99,21 +129,6 @@ void Villager::Update()
 	//{
 	//	is_walk_ = false;
 	//}
-
-	//---------------------------------------------------------
-	// アニメーションの更新
-	//---------------------------------------------------------
-	// アニメーションの再生
-	if (is_walk_)
-	{
-		// 移動中
-		PlayLoopAnimation("runaway");
-	}
-	else
-	{
-		// 待機中(立ち止まっている)
-		PlayLoopAnimation("idle");
-	}
 
 	//--------------------------------
 	// 他オブジェクトとの当たり判定
@@ -160,6 +175,8 @@ void Villager::Update()
 
 void Villager::Render()
 {
+	if (!is_render_) return;
+
 	MV1SetPosition(*object_model_, VGet(object_position_.x, object_position_.y, object_position_.z));
 	MV1SetScale(*object_model_, VGet(object_scale_.x, object_scale_.y, object_scale_.z));
 	MV1SetRotationXYZ(*object_model_, VGet(object_rotate_.x, object_rotate_.y + TO_RADIAN(180.0f), object_rotate_.z));
@@ -171,7 +188,7 @@ void Villager::SetPlayerInfomation(const Vector3& p_pos)
 	player_position_.set(p_pos.x, p_pos.y, p_pos.z);
 }
 
-void Villager::SearchFollowObject(Vector3 pos)
+void Villager::SearchPlayer(Vector3 pos)
 {
 	// ２つの座標からベクトルを求める
 	vector_with_player_ = CalculateTwoVector(pos, object_position_);
@@ -191,11 +208,17 @@ void Villager::SearchFollowObject(Vector3 pos)
 	// プレイヤーに接近したら、立ち止まるようにする
 	else if (length < 7.0f)
 	{
+		// ステータスを「待機」にする
+		SetterStatus(VillagerStatus::Idle);
+
 		// フラグを立てる
 		IsAlwaysFollow(0);
 	}
 	else if (length < FOLLOW_PLAYER_RANGE)
 	{
+		// プレイヤー向かわせる
+		FollowObject(vector_with_player_);
+
 		// フラグを立てる
 		IsAlwaysFollow(1);
 	}
@@ -214,10 +237,10 @@ void Villager::IsAlwaysFollow(bool flag)
 	is_player_follow_ = flag;
 }
 
-void Villager::Follow(Vector3 vec)
+void Villager::FollowObject(Vector3 vec)
 {
-	// ステータスを「プレイヤーについていく」にする
-	SetterStatus(VillagerStatus::FollowPlayer);
+	//// ステータスを「プレイヤーについていく」にする
+	//SetterStatus(VillagerStatus::FollowPlayer);
 
 	// ベクトルの正規化
 	vec.VSet(VNorm(vec.VGet()));
@@ -232,9 +255,15 @@ void Villager::Follow(Vector3 vec)
 
 void Villager::GoalAction()
 {
-	printfDx("ここに入っているかどうか\n");
-	// その後の処理をここでする
-	SearchFollowObject({ 0.0f, 0.0f, 250.0f });
+	// ゴールフラグを立てる
+	is_goal_ = true;
+	// ステージ奥に向かわせる
+	FollowObject({ 0.0f,0.0f,250.0f });
+	if (object_position_.z >= 230.0f)
+	{
+		// 描画しないようにする
+		is_render_ = false;
+	}
 }
 
 void Villager::SetFenceInfo(std::vector<Fence*> f_objs)
@@ -251,6 +280,11 @@ int Villager::GetterMyID() const
 bool Villager::GetterIsCollidingWithEnemy() const
 {
 	return is_colliding_with_enemy_;
+}
+
+bool Villager::GetterIsGoal() const
+{
+	return is_goal_;
 }
 
 void Villager::SetterMyPosition(Vector3 set_pos)

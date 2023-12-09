@@ -42,10 +42,16 @@ public:
 	//std::vector<int> GetterVillagersID() const;
 	// 全情報を渡す
 	std::vector<Villager*> GetterVillagers() const;
+	
+	// 目的地に到達した村人の総数を渡す
+	int GetterGoalVillager() const;
+
 	//---------------------------------
 
 private:
 	int set_id_num_ = 0;		// 通し番号設定用
+
+	int villagersgoal_num = 0;	// 目的地に到達した村人の総数
 
 	std::vector<Villager*> villagers_;			// 全村人の格納配列
 	// 他オブジェクト情報格納用変数

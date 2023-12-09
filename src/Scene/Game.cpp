@@ -190,8 +190,13 @@ void Game::UIRender()
 
 	//----------------------------------------
 	// スコア
+
+	// int型 -> string型
+	std::string str_goal_num = std::to_string(villager_manage->GetterGoalVillager());
+	// string型 -> const char*型
+	const char* str_goal_num_tochar = str_goal_num.c_str();
 	make_string.DrawString(10, 10, 0.17f, "とどけた人数：", 255, 255, 255, font_handle_);
-	make_string.DrawString(175, 10, 0.17f, "000", 255, 255, 255, font_handle_);
+	make_string.DrawString(175, 10, 0.17f, str_goal_num_tochar, 255, 255, 255, font_handle_);
 
 	//----------------------------------------
 	// ゲーム開始前カウントダウン描画処理
