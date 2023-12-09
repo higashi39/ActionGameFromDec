@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{0c8d419b-7fbf-46a5-9d30-f09afe1cddfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\System">
+      <UniqueIdentifier>{ad4ac56c-2218-4cb5-bd5a-8c7649912d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Other">
+      <UniqueIdentifier>{a6bce748-5186-4bf4-9ad5-055de46e00aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object">
+      <UniqueIdentifier>{843a65c2-6e42-4f91-bb18-0f39cdcc5d7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Item">
+      <UniqueIdentifier>{5cb332c0-c993-4e15-b91d-eb124baa6b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene">
+      <UniqueIdentifier>{d929dd89-3e4b-4c0e-ad9b-9e61b7f1af89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Environment">
+      <UniqueIdentifier>{b4861097-9bd2-4484-af98-c162f66088b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Character">
+      <UniqueIdentifier>{4f8c1473-d35a-4fc0-b43c-46e3dc66f7e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Character\Friend">
+      <UniqueIdentifier>{a8c68936-6fcf-473a-b405-2cd7b8e62282}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Character\Enemy">
+      <UniqueIdentifier>{b1cc86c0-6dae-4b07-acb7-ab0c434305b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Item\Weapon">
+      <UniqueIdentifier>{75edb6a6-18a6-434f-916a-7812d0aba999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Character\Enemy\Type">
+      <UniqueIdentifier>{6d20891e-cd85-4ba3-ba3b-7bab48269ede}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Environment\Rock">
+      <UniqueIdentifier>{c5c0b321-ea8f-4028-8a94-34ce84c3a9af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object\Environment\Rock\Type">
+      <UniqueIdentifier>{8d344c52-5231-4e74-932e-6568a9219bc2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Hit.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Random.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Vector2.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Vector3.cpp">
+      <Filter>src\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\Camera.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Game.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\StatusData.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\MapData.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\SceneManager.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Title.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\StageSelect.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\SpawnerManagerBase.cpp">
+      <Filter>src\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Fence.cpp">
+      <Filter>src\Object\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Ground.cpp">
+      <Filter>src\Object\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\FenceManager.cpp">
+      <Filter>src\Object\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\CharaHeadHPInfo.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\Animation.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Item\Weapon\Sword01.cpp">
+      <Filter>src\Object\Item\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\EnvironmentBase.cpp">
+      <Filter>src\Object\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Item\ItemBase.cpp">
+      <Filter>src\Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Enemy\EnemySpawnerManager.cpp">
+      <Filter>src\Object\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Enemy\EnemyManager.cpp">
+      <Filter>src\Object\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Enemy\EnemySpawner.cpp">
+      <Filter>src\Object\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Friend\VillagerManager.cpp">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Friend\VillagerSpawner.cpp">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Friend\VillagerSpawnerManager.cpp">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Friend\Player.cpp">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Friend\Villager.cpp">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\CharacterBase.cpp">
+      <Filter>src\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\CharacterManagerBase.cpp">
+      <Filter>src\Object\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\Font.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\MakeString.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\Blinker.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\ScreenHPInfo.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Other\HPInfoBase.cpp">
+      <Filter>src\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Enemy\Type\EnemyBase.cpp">
+      <Filter>src\Object\Character\Enemy\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Enemy\Type\EnemyPatrol.cpp">
+      <Filter>src\Object\Character\Enemy\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Character\Enemy\Type\EnemySword.cpp">
+      <Filter>src\Object\Character\Enemy\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Rock\Type\Rock04.cpp">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Rock\Type\Rock05.cpp">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Rock\Type\RockBase.cpp">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Rock\Type\Rock01.cpp">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Rock\Type\Rock02.cpp">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Rock\Type\Rock03.cpp">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Rock\RockManager.cpp">
+      <Filter>src\Object\Environment\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Environment\Box.cpp">
+      <Filter>src\Object\Environment</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Main.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Hit.h">
+      <Filter>src\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Random.h">
+      <Filter>src\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Vector2.h">
+      <Filter>src\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Vector3.h">
+      <Filter>src\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\Camera.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Game.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\StatusData.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\MapData.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\SceneManager.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Title.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\StageSelect.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\SpawnerManagerBase.h">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Fence.h">
+      <Filter>src\Object\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Ground.h">
+      <Filter>src\Object\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\FenceManager.h">
+      <Filter>src\Object\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\CharaHeadHPInfo.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\Animation.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Item\Weapon\Sword01.h">
+      <Filter>src\Object\Item\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\EnvironmentBase.h">
+      <Filter>src\Object\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Item\ItemBase.h">
+      <Filter>src\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Enemy\EnemySpawner.h">
+      <Filter>src\Object\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Enemy\EnemySpawnerManager.h">
+      <Filter>src\Object\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Enemy\EnemyManager.h">
+      <Filter>src\Object\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Friend\Villager.h">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Friend\VillagerManager.h">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Friend\VillagerSpawner.h">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Friend\VillagerSpawnerManager.h">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Friend\Player.h">
+      <Filter>src\Object\Character\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\CharacterBase.h">
+      <Filter>src\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\CharacterManagerBase.h">
+      <Filter>src\Object\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\Font.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\MakeString.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\Blinker.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\ScreenHPInfo.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Other\HPInfoBase.h">
+      <Filter>src\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Enemy\Type\EnemyBase.h">
+      <Filter>src\Object\Character\Enemy\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Enemy\Type\EnemyPatrol.h">
+      <Filter>src\Object\Character\Enemy\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Character\Enemy\Type\EnemySword.h">
+      <Filter>src\Object\Character\Enemy\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Rock\Type\Rock03.h">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Rock\Type\Rock04.h">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Rock\Type\Rock05.h">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Rock\Type\RockBase.h">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Rock\Type\Rock01.h">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Rock\Type\Rock02.h">
+      <Filter>src\Object\Environment\Rock\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Rock\RockManager.h">
+      <Filter>src\Object\Environment\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\Box.h">
+      <Filter>src\Object\Environment</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
