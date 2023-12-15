@@ -9,9 +9,13 @@ class EnemyPatrol : public EnemyBase
 {
 public:
 	// コンストラクタ
-	// pos   : 自身の位置 
-	// id    : 自身の通し番号
-	EnemyPatrol(Vector3 pos, int id);
+	// handle		: モデルハンドル
+	// pos			: 自身の位置 
+	// rot			: 自身の向き
+	// id			: 自身の通し番号
+	// patrol_pos1	: 巡回折り返し位置１ 
+	// patrol_pos2	: 巡回折り返し位置２ 
+	EnemyPatrol(int handle, Vector3 pos,Vector3 rot, int id, Vector3 patrol_pos1, Vector3 patrol_pos2);
 	~EnemyPatrol();
 
 	// 更新

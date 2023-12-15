@@ -1,18 +1,20 @@
+#include <cmath>
 #include "../../../../Main.h"
 #include "../../../../Scene/Game.h"
 #include "EnemySword.h"
 
 #include "../../../../System/Hit.h"
 
-EnemySword::EnemySword(Vector3 pos, int id)
+EnemySword::EnemySword(int handle, Vector3 pos, Vector3 rot,int id)
 {
 	// モデルデーター格納
 	object_model_ = new int;
-	*object_model_ = MV1LoadModel("data/enemy01/model/Enemy01.mv1");
+	*object_model_ = MV1DuplicateModel(handle);
 
 	// 各変数の設定(初期化)
 	object_position_ = pos;	// 位置
-	object_scale_.set(0.05f, 0.05f, 0.05f);	// 大きさ
+	object_rotate_ = rot;	// 向き
+	object_scale_.set(0.08f, 0.08f, 0.08f);	// 大きさ
 
 	my_id_ = id;
 
@@ -23,7 +25,9 @@ EnemySword::EnemySword(Vector3 pos, int id)
 	// 自身のモデル情報を渡す
 	FetchObjectModel(*object_model_);
 	// キャラクターにつけたいアニメーション情報を設定する
-	SettingAnimation({ {"idle", "data/enemy01/animation/Idle.mv1", 0, 0.0f, 0.3f},
+	SettingAnimation({ {"idle", "data/enemy02/animation/Idle.mv1", 0, 0.0f, 0.3f},
+					   {"walk", "data/enemy02/animation/Walk.mv1", 0, 0.0f, 0.3f},
+ 					   {"attack", "data/enemy02/animation/Attack.mv1", 0, 0.0f, 0.3f},
 		});
 	// 自身のモデルに各アニメーションをアタッチする
 	AttachAnimation();
@@ -39,14 +43,15 @@ EnemySword::~EnemySword()
 
 void EnemySword::Update()
 {
-	// 生存フラグが立っていなければ、以降の更新処理を行わない
-	if (!hp_.IsSurvice())
-	{
-		return;
-	}
+	//// 生存フラグが立っていなければ、以降の更新処理を行わない
+	//if (!hp_.IsSurvice())
+	//{
+	//	return;
+	//}
+	//// HP情報の更新処理
+	//hp_.Update(object_position_, 10.0f);
 
-	// HP情報の更新処理
-	hp_.Update(object_position_, 10.0f);
+	Hit();
 
 	// 村人との距離を求めて、一番近い村人を求める
 	SearchVillagers();
@@ -89,21 +94,13 @@ void EnemySword::Update()
 		}
 	}
 
+
+
 	// 攻撃直後であれば
 	if (!is_enable_attack_)
 	{
 		// クールダウン時間をカウントする
 		EnemyCountAttackCoolTime();
-	}
-
-	//---------------------------------------
-	// ダメージ処理
-	if (is_enable_damage_)
-	{
-		// ステータスを「攻撃を受ける」にする
-		enemy_status = EnemyStatus::Damage;
-		// HPを減らす
-		hp_.SetterIsDamaged(10.0f);
 	}
 
 	//---------------------------------------------------------
@@ -123,6 +120,8 @@ void EnemySword::Update()
 		PlayLoopAnimation("walk");
 		break;
 	case EnemyStatus::Attack:
+		// 攻撃
+		PlayLoopAnimation("attack");
 		break;
 	case EnemyStatus::Damage:
 		break;
@@ -130,10 +129,10 @@ void EnemySword::Update()
 		break;
 	}
 
-	value = static_cast<int>(enemy_status);
 
 #if SHOW_DEBUG
+	value = static_cast<int>(enemy_status);
 	//printfDx("hp : %d\n", hp_num_);
-	//printfDx("enemy_status : %d\n,",value);
+	printfDx("enemy_status : %d\n,",value);
 #endif
 }

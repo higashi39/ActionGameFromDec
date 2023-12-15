@@ -4,7 +4,7 @@
 
 #include "Player.h"
 #include "../Enemy/Type/EnemyBase.h"
-#include "../../Environment/Fence.h"
+#include "../../Environment/FenceBase.h"
 
 #include "../../../Other/StatusData.h"
 #include "../../../System/Hit.h"
@@ -19,7 +19,7 @@ Player::Player()
 	*object_model_ = MV1LoadModel("data/player/model/Human.mv1");
 
 	// 各変数の設定(初期化)
-	object_position_.set(0.0f, 0.0f, 50.0f);		// 位置
+	object_position_.set(0.0f, 0.0f, -250.0f);		// 位置
 	object_rotate_.y = TO_RADIAN(0.0f);			// 回転
 	object_scale_.set(0.05f, 0.05f, 0.05f);		// 大きさ
 
@@ -43,8 +43,8 @@ Player::Player()
 	// 自身のモデルに各アニメーションをアタッチする
 	AttachAnimation();
 
-	// HP情報の初期化
-	hp_.Init();
+	//// HP情報の初期化
+	//hp_.Init();
 }
 
 void Player::Update()
@@ -53,8 +53,8 @@ void Player::Update()
 	Vector3 before_pos;
 	before_pos = object_position_;
 
-	// HP情報の更新
-	hp_.Update();
+	//// HP情報の更新
+	//hp_.Update();
 
 	//----------------------------------
 	// キー操作
@@ -187,7 +187,7 @@ void Player::Render()
 
 void Player::RenderFor2D()
 {
-	hp_.Render();
+	//hp_.Render();
 }
 
 void Player::PlayerAttack(EnemyBase* e_obj)
@@ -218,7 +218,7 @@ void Player::FetchEnemyInfo(const std::vector<EnemyBase*>& e_objs)
 	enemy_objs_ = e_objs;
 }
 
-void Player::FetchFenceInfo(const std::vector<Fence*>& f_objs)
+void Player::FetchFenceInfo(const std::vector<FenceBase*>& f_objs)
 {
 	fence_objs_ = f_objs;
 }

@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include "../CharacterBase.h"
-#include "../../../Other/ScreenHPInfo.h"
+//#include "../../../Other/ScreenHPInfo.h"
 class EnemyBase;
-class Fence;
+class FenceBase;
 
 //---------------------------------------------------------------------------------
 //	プレイヤークラス
@@ -46,7 +46,7 @@ public:
 	// 全敵の情報を取得
 	void FetchEnemyInfo(const std::vector<EnemyBase*>& e_objs);
 	// 柵の情報を取得する
-	void FetchFenceInfo(const std::vector<Fence*>& f_objs);
+	void FetchFenceInfo(const std::vector<FenceBase*>& f_objs);
 
 	//--------------------------
 	// ゲッター関数
@@ -68,14 +68,14 @@ public:
 private:
 
 	std::vector<EnemyBase*> enemy_objs_;			// 敵の情報を格納する配列
-	std::vector<Fence*> fence_objs_;				// 柵の情報を格納する配列
+	std::vector<FenceBase*> fence_objs_;				// 柵の情報を格納する配列
 
 	bool is_enable_attack_;			// 攻撃処理が有効であるかどうか
 	float attack_cool_time_;		// 攻撃のクールダウン時間
 
 	bool is_enable_spacekey_ = false;		// スペースキーを押したかどうか
 
-protected:
-	// HP情報
-	ScreenHPInfo hp_;
+//protected:
+//	// HP情報
+//	ScreenHPInfo hp_;
 };

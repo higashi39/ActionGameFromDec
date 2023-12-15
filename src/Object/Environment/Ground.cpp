@@ -5,9 +5,10 @@
 Ground::Ground()
 {
 	object_model_ = new int;
-	*object_model_ = MV1LoadModel("data/ground.x");
+	*object_model_ = MV1LoadModel("data/stage/ground/ground.mv1");
 
-	object_scale_.set(5.0f, 1.0f, 5.0f);
+	object_position_.set(0.0f, -0.3f, 0.0f);
+	object_scale_.set(1.0f,0.1f,1.0f);
 }
 
 void Ground::Render()

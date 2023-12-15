@@ -16,9 +16,13 @@ public:
 	~EnemyManager();
 
 	// 敵を生成する
-	// pos    : スポーンされる位置
-	// type   : 敵の種類
-	void SpawnEnemy(int type, Vector3 pos);
+	// handle		: モデルハンドル
+	// pos			: スポーンされる位置
+	// rot			: スポーンされたときの向き
+	// type			: 敵の種類
+	// patrol_pos1　: 巡回折り返し地点１（敵（巡回型）のみ）
+	// patrol_pos2　: 巡回折り返し地点２（敵（巡回型）のみ）
+	void SpawnEnemy(int handle, int type, Vector3 pos, Vector3 rot, Vector3 patrol_pos1, Vector3 patrol_pos2);
 
 	// 更新
 	void Update(const Vector3& p_pos, const std::vector<Villager*>& v_objs);

@@ -36,4 +36,7 @@ void Camera::Render()
 {
 	SetCameraPositionAndTarget_UpVecY(VGet(camera_position_.x, camera_position_.y, camera_position_.z),
 		VGet(camera_look_.x, camera_look_.y, camera_look_.z));
+
+	// DXライブラリのカメラとEffekseerのカメラを同期する。
+	Effekseer_Sync3DSetting();
 }

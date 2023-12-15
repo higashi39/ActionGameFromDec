@@ -186,6 +186,9 @@
     <ClCompile Include="src\Object\Environment\Box.cpp">
       <Filter>src\Object\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="src\Object\Environment\FenceBase.cpp">
+      <Filter>src\Object\Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Main.h">
@@ -327,6 +330,9 @@
       <Filter>src\Object\Environment\Rock</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\Environment\Box.h">
+      <Filter>src\Object\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Environment\FenceBase.h">
       <Filter>src\Object\Environment</Filter>
     </ClInclude>
   </ItemGroup>

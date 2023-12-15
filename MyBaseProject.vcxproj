@@ -61,6 +61,7 @@
     <ClCompile Include="src\Object\Environment\Box.cpp" />
     <ClCompile Include="src\Object\Environment\EnvironmentBase.cpp" />
     <ClCompile Include="src\Object\Environment\Fence.cpp" />
+    <ClCompile Include="src\Object\Environment\FenceBase.cpp" />
     <ClCompile Include="src\Object\Environment\FenceManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
@@ -155,6 +156,7 @@
     <ClInclude Include="src\Object\Environment\Box.h" />
     <ClInclude Include="src\Object\Environment\EnvironmentBase.h" />
     <ClInclude Include="src\Object\Environment\Fence.h" />
+    <ClInclude Include="src\Object\Environment\FenceBase.h" />
     <ClInclude Include="src\Object\Environment\FenceManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>

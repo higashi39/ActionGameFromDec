@@ -26,18 +26,18 @@ EnemyManager::~EnemyManager()
 	enemies_.clear();
 }
 
-void EnemyManager::SpawnEnemy(int type, Vector3 pos)
+void EnemyManager::SpawnEnemy(int handle, int type, Vector3 pos, Vector3 rot, Vector3 patrol_pos1, Vector3 patrol_pos2)
 {
 	// ’â~Œ^
 	if (type == EnemyType::TypeStop)
 	{
-		enemies_.emplace_back(new EnemySword(pos, set_id_num_));
+		enemies_.emplace_back(new EnemySword(handle, pos, rot, set_id_num_));
 		++set_id_num_;
 	}
 	// „‰ñŒ^
 	else if (type == EnemyType::TypePatrol)
 	{
-		enemies_.emplace_back(new EnemyPatrol(pos, set_id_num_));
+		enemies_.emplace_back(new EnemyPatrol(handle, pos, rot, set_id_num_, patrol_pos1, patrol_pos2));
 		++set_id_num_;
 	}
 }
@@ -53,7 +53,7 @@ void EnemyManager::Update(const Vector3& p_pos, const std::vector<Villager*>& v_
 		if (e_obj != NULL)
 		{
 			e_obj->FetchPlayerPosition(p_pos);
-			e_obj->FetchVillagersPosition(v_objs);
+			e_obj->FetchVillagers(v_objs);
 			e_obj->Update();
 		}
 	}
@@ -101,11 +101,11 @@ void EnemyManager::HitOtherEnemies()
 			float len = CalculateVectorToLength(vec);
 
 			// ‚¨Œİ‚¢‚Ì‹——£‚ªˆê’è‚æ‚è’Z‚­‚È‚é‚Ì‚Å‚ ‚ê‚Î
-			if (len < 5.0f)
+			if (len < 14.0f)
 			{
 				// ‹——£‚ğŒÅ’è‚·‚é
 				Vector3 dir = vec * -1.0f;
-				dir.SetLength(5.0f);
+				dir.SetLength(14.0f);
 
 				e_obj2->SetterMyPosition(e_obj1->GetterMyPosition() + dir);
 			}

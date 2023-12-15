@@ -59,13 +59,16 @@ void ScreenHPInfo::Update()
 	//hp_red_x_ = hp_min_pos_.x + hp_red_value_;
 
 	// HPが0より大きい場合に攻撃を受けたら
-	if (hp_value_ >= 0.0f)
+	if (PushHitKey(KEY_INPUT_SPACE))
 	{
-		if (is_damaged_)
+		if (hp_value_ >= 0.0f)
 		{
-			// ダメージ処理とHPの減少処理を行う
-			Damaged();
-			HPDecrease();
+			if (is_damaged_)
+			{
+				// ダメージ処理とHPの減少処理を行う
+				Damaged();
+				HPDecrease();
+			}
 		}
 	}
 

@@ -19,6 +19,7 @@
 //#include <d3dx9.h>
 
 #include <DxLib.h>
+#include "EffekseerForDXLib.h"
 
 bool PushHitKey(int key);
 bool CheckMouseInput(int button = MOUSE_INPUT_LEFT | MOUSE_INPUT_RIGHT);

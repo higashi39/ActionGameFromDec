@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "../../../System/Vector3.h"
-class Fence;
+class FenceBase;
 class Villager;
 class Player;
 
@@ -15,8 +15,9 @@ public:
 	~VillagerManager();
 
 	// 村人を生成する
+	// handle : モデルハンドル
 	// pos    : スポーンされる位置
-	void SpawnVillager(Vector3 pos);
+	void SpawnVillager(int handle, Vector3 pos);
 
 	// 自分以外の村人(保護対象)の位置を返す
 	// my_id : 自分の識別ID
@@ -32,7 +33,7 @@ public:
 	void HitOtherVillagers();
 
 	// 柵の情報をもらう
-	void FetchFenceInfo(const std::vector<Fence*>& f_objs);
+	void FetchFenceInfo(const std::vector<FenceBase*>& f_objs);
 
 	//---------------------------------
 	// ゲッター関数
@@ -45,6 +46,8 @@ public:
 	
 	// 目的地に到達した村人の総数を渡す
 	int GetterGoalVillager() const;
+	// 追加する秒数を渡す
+	int AddTimeLimit();
 
 	//---------------------------------
 
@@ -52,8 +55,9 @@ private:
 	int set_id_num_ = 0;		// 通し番号設定用
 
 	int villagersgoal_num = 0;	// 目的地に到達した村人の総数
+	int add_time_ = 0;
 
 	std::vector<Villager*> villagers_;			// 全村人の格納配列
 	// 他オブジェクト情報格納用変数
-	std::vector<Fence*> fences_;				// 柵
+	std::vector<FenceBase*> fences_;				// 柵
 };

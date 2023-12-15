@@ -72,10 +72,12 @@ public:
 	void CalculateMapChip();
 
 	// ステージ生成処理
-	// type : 渡されるオブジェクト用ID
-	// pos  : そのオブジェクトが設置される座標
-	// rot  :							角度
-	void CreateStage(int type, Vector3 pos, Vector3 rot);
+	// type			: 渡されるオブジェクト用ID
+	// pos			: そのオブジェクトが設置される座標
+	// rot			:							角度
+	// pat_pos1		: 巡回折り返し地点１（敵（巡回型）のみ） 
+	// pat_pos2		: 巡回折り返し地点２（敵（巡回型）のみ） 
+	void CreateStage(int type, Vector3 pos, Vector3 rot, Vector3 pat_pos1, Vector3 pat_pos2);
 
 
 
@@ -115,4 +117,10 @@ private:
 
 	// has関係
 	MakeString make_string;
+
+	// モデル関係
+	int handle_villager_ = 0;		// 村人
+	int handle_enemy1_ = 0;	// 敵（停止型）
+	int handle_enemy2_ = 0;	// 敵（巡回型）
+	int handle_fence_ = 0;			// 柵
 };

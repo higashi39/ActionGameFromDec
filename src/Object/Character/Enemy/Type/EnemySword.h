@@ -9,9 +9,11 @@ class EnemySword : public EnemyBase
 {
 public:
 	// コンストラクタ
-	// pos   : 自身の位置
-	// id    : 自身の通し番号
-	EnemySword(Vector3 pos, int id);
+	// handle : モデルハンドル
+	// pos    : 自身の位置
+	// rot    : 自身の向き
+	// id     : 自身の通し番号
+	EnemySword(int handle, Vector3 pos, Vector3 rot, int id);
 	~EnemySword();
 
 	// 更新

@@ -16,7 +16,7 @@
 #include "EnemySword.h"
 #include "EnemyPatrol.h"
 
-#define ENEMY_MOV_SPEED	0.1f
+#define ENEMY_MOV_SPEED	0.2f
 #define SEARCH_VILLAGER_RANGE 70.0f
 
 EnemyBase::EnemyBase()
@@ -36,8 +36,8 @@ EnemyBase::EnemyBase()
 	fetch_player_position_.set(0.0f, 0.0f, 0.0f);
 	fetch_villagers_.clear();
 
-	// HP情報の初期化
-	hp_.Init();
+	//// HP情報の初期化
+	//hp_.Init();
 }
 
 EnemyBase::~EnemyBase()
@@ -46,7 +46,7 @@ EnemyBase::~EnemyBase()
 
 void EnemyBase::Render()
 {
-	if (!hp_.IsSurvice())	return;
+	//if (!hp_.IsSurvice())	return;
 
 	// モデルの描画
 	MV1SetPosition(*object_model_, VGet(object_position_.x, object_position_.y, object_position_.z));
@@ -74,12 +74,13 @@ void EnemyBase::Render()
 	line.y = 5.0f;
 	DrawLine3D(object_position_.VGet(), line.VGet(), GetColor(255, 128, 128));
 
+	//DrawSphere3D(VGet(object_position_.x, 4.0f, object_position_.z), 7.0f, 8, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
 }
 
 void EnemyBase::RenderFor2D()
 {
-	// HP情報の描画
-	hp_.Render();
+	//// HP情報の描画
+	//hp_.Render();
 }
 
 void EnemyBase::SearchVillagers()
@@ -149,8 +150,8 @@ void EnemyBase::ChaseNearVillager(Vector3 near_vec)
 	// 移動する方向に向ける
 	object_rotate_.y = atan2f(near_vec.x, near_vec.z);
 	// 村人に向かう
-	object_position_.x += 0.05f * sinf(object_rotate_.y);
-	object_position_.z += 0.05f * cosf(object_rotate_.y);
+	object_position_.x += ENEMY_MOV_SPEED * sinf(object_rotate_.y);
+	object_position_.z += ENEMY_MOV_SPEED * cosf(object_rotate_.y);
 }
 
 void EnemyBase::EnemyAttack(std::vector<Villager*>& v_objs_)
@@ -207,6 +208,27 @@ bool EnemyBase::IsViewRange()
 	return false;
 }
 
+void EnemyBase::Hit()
+{
+	for (auto& villager : fetch_villagers_)
+	{
+		// 自身の前方向のベクトルを取得
+		Vector3 front;
+		front.x = object_position_.x + 5.0f * std::sinf(object_rotate_.y);
+		front.z = object_position_.z + 5.0f * std::cosf(object_rotate_.y);
+		front.y = 0.0f;
+		//DrawSphere3D(VGet(front.x, 4.0f, front.z), 1.5f, 8, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+
+		if (CheckBallHit({ front.x, 4.0f, front.z }, 5.0f, 
+			{ villager->GetterMyPosition().x,/*villager->GetterMyPosition().y + */4.0f, villager->GetterMyPosition().z}, 3.0f))
+		{
+			SetterStatus(EnemyStatus::Attack);
+			//printfDx("あたっているかどうか\n");
+		}
+	}
+
+}
+
 void EnemyBase::SetterIsDamageToPlayer(bool is_enable)
 {
 	is_enable_damage_ = is_enable;
@@ -229,7 +251,7 @@ void EnemyBase::FetchPlayerPosition(const Vector3& pos)
 	fetch_player_position_ = pos;
 }
 
-void EnemyBase::FetchVillagersPosition(const std::vector<Villager*>& v_objs)
+void EnemyBase::FetchVillagers(const std::vector<Villager*>& v_objs)
 {
 	// 村人の情報をもらう
 	fetch_villagers_ = v_objs;

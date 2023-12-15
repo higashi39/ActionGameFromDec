@@ -3,14 +3,14 @@
 #include "../../../System/Vector3.h"
 #include "../CharacterBase.h"
 
-class Fence;
+class FenceBase;
 
 //---------------------------------------------------------------------------------
 //	村人(保護対象)クラス
 //---------------------------------------------------------------------------------
 class Villager : public CharacterBase
 {
-private:
+protected:
 	// ステータス情報
 	enum class VillagerStatus
 	{
@@ -18,19 +18,23 @@ private:
 		FollowPlayer,		// プレイヤーに付いていく
 		Damaged,			// 攻撃を受ける
 		GoalPoint,			// 目的地に到達
+		Reached,			// 到達済み
 		KnockDown			// ダウン 
 	};
-private:
 	VillagerStatus villager_status = VillagerStatus::Idle;		// ステータス情報
+public:
+	int GetterVillagerStatus() const;
 	int value = static_cast<int>(villager_status);
+private:
 	// ステータス状態を設定する
 	void SetterStatus(VillagerStatus status);
 
 public:
 	// コンストラクタ
-	// pos : 自身の位置
-	// id  : 自身の通し番号
-	Villager(Vector3 pos, int id);
+	// handle	: モデルハンドル
+	// pos		: 自身の位置
+	// id		: 自身の通し番号
+	Villager(int handle, Vector3 pos, int id);
 	~Villager();
 
 	// 更新
@@ -61,7 +65,7 @@ public:
 	//void SearchOtherVillagers(const std::vector<Vector3> v_poss);
 
 
-	void SetFenceInfo(std::vector<Fence*> f_objs);
+	void SetFenceInfo(std::vector<FenceBase*> f_objs);
 
 	//---------------------------------
 	// ゲッター関数
@@ -73,6 +77,9 @@ public:
 	// 自身が目的地に到達したかどうかを渡す
 	bool GetterIsGoal() const;
 
+	// １フレーム前の位置を渡す
+	Vector3 GetterMyBeforePosition() const;
+
 	//---------------------------------
 	// セッター関数
 
@@ -83,11 +90,16 @@ public:
 	void SetterIsCollidingWithEnemy(bool is_colliding);
 	//---------------------------------
 
+	int add_time_ = 0;
+
 private:
 	int my_id_;		// 村人(保護対象)自身のID
 
+	Vector3 before_pos_;
+
 	Vector3 player_position_;			// プレイヤー座標格納用
 	Vector3 vector_with_player_;		// 自身とプレイヤーのベクトル
+	float length_with_player_;			// プレイヤーとの距離
 	bool is_player_follow_;				// プレイヤーについていくかどうか
 
 	bool is_colliding_with_enemy_;		// 敵と接触しているかどうか
@@ -98,5 +110,5 @@ private:
 	bool is_render_ = true;			// 描画するかどうか
 
 	// 他オブジェクト情報格納用変数
-	std::vector<Fence*> fences_;		// 柵
+	std::vector<FenceBase*> fences_;		// 柵
 };

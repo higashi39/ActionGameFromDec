@@ -1,6 +1,6 @@
 #include "../../../Main.h"
 #include "../../../Scene/Game.h"
-#include "../../Environment/Fence.h"
+#include "../../Environment/FenceBase.h"
 #include "Villager.h"
 #include "Player.h"
 #include "VillagerManager.h"
@@ -20,9 +20,9 @@ VillagerManager::~VillagerManager()
 	villagers_.clear();
 }
 
-void VillagerManager::SpawnVillager(Vector3 pos)
+void VillagerManager::SpawnVillager(int handle, Vector3 pos)
 {
-	villagers_.emplace_back(new Villager(pos, set_id_num_));
+	villagers_.emplace_back(new Villager(handle, pos, set_id_num_));
 	++set_id_num_;
 }
 
@@ -45,16 +45,18 @@ void VillagerManager::Update(const Vector3& p_pos)
 				++num;
 			}
 		}
+
 	}
 	villagersgoal_num = num;
 
 #if SHOW_DEBUG
-	for (auto& v_obj : villagers_)
-	{
-		printfDx("ID : %d\n",
-			v_obj->GetterMyID());
+	//for (auto& v_obj : villagers_)
+	//{
+	//	printfDx("ID : %d\n",
+	//		v_obj->GetterMyID());
 
-	}
+	//}
+	printfDx("add_time : %d\n", add_time_);
 #endif
 }
 
@@ -69,7 +71,7 @@ void VillagerManager::Render()
 	}
 }
 
-void VillagerManager::FetchFenceInfo(const std::vector<Fence*>& f_objs)
+void VillagerManager::FetchFenceInfo(const std::vector<FenceBase*>& f_objs)
 {
 	fences_ = f_objs;
 }
@@ -94,16 +96,27 @@ void VillagerManager::HitOtherVillagers()
 				continue;
 			}
 
+			//if (CheckBallHit(v_obj1->GetterMyPosition(), 2.0f,
+			//	v_obj2->GetterMyPosition(), 2.0f))
+			//{
+			//	v_obj2->SetterMyPosition(HitCollision(v_obj2->GetterMyPosition(), v_obj2->GetterMyBeforePosition(), { 2.0f,2.0f,2.0f},
+			//		v_obj1->GetterMyPosition(), { 2.0f,2.0f,2.0f }));
+
+			//}
+
 			Vector3 vec;
 			vec = CalculateTwoVector(v_obj1->GetterMyPosition(), v_obj2->GetterMyPosition());
 			float len = CalculateVectorToLength(vec);
 
-			if (len < 5.0f)
+			if (len < 3.0f)
 			{
 				Vector3 dir = vec * -1.0f;
-				dir.SetLength(5.0f);
+				dir.SetLength(3.0f);
 
 				v_obj2->SetterMyPosition(v_obj1->GetterMyPosition() + dir);
+				//v_obj2->SetterMyPosition(HitCollision(v_obj2->GetterMyPosition(), v_obj2->GetterMyBeforePosition(), { 3.0f,3.0f,3.0f },
+				//	v_obj1->GetterMyPosition(), { 3.0f,3.0f,3.0f }));
+
 			}
 		}
 	}
@@ -117,6 +130,18 @@ std::vector<Villager*> VillagerManager::GetterVillagers() const
 int VillagerManager::GetterGoalVillager() const
 {
 	return villagersgoal_num;
+}
+
+int VillagerManager::AddTimeLimit()
+{
+	int test = 0;
+	for (auto& v_obj : villagers_)
+	{
+		test += v_obj->add_time_;
+	}
+	printfDx("test : %d\n", test);
+
+	return test;
 }
 
 //std::vector<Villager*> VillagerManager::GetterVillagers() const

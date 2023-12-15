@@ -2,7 +2,7 @@
 #include <vector>
 #include "../../CharacterBase.h"
 #include "../../../../System/Vector3.h"
-#include "../../../../Other/CharaHeadHPInfo.h"
+//#include "../../../../Other/CharaHeadHPInfo.h"
 
 class EnemySword;
 class EnemyPatrol;
@@ -11,7 +11,7 @@ class Villager;
 class Player;
 
 //---------------------------------------------------------------------------------
-//	敵マネージャクラス
+//	敵ベースクラス
 //---------------------------------------------------------------------------------
 class EnemyBase : public CharacterBase
 {
@@ -65,6 +65,7 @@ public:
 	// 視野範囲の処理
 	bool IsViewRange();
 
+	void Hit();
 
 	//---------------------------------
 	// ゲッター関数
@@ -93,7 +94,7 @@ public:
 	// プレイヤー
 	void FetchPlayerPosition(const Vector3& pos);
 	// 村人
-	void FetchVillagersPosition(const std::vector<Villager*>& v_objs);
+	void FetchVillagers(const std::vector<Villager*>& v_objs);
 
 protected:
 	int my_id_;							// 自身の識別番号
@@ -113,7 +114,7 @@ protected:
 
 	bool is_enable_damage_ = false;		// ダメージを受けるどうか
 
-protected:
-	// HP情報
-	CharaHeadHPInfo hp_;
+//protected:
+//	// HP情報
+//	CharaHeadHPInfo hp_;
 };

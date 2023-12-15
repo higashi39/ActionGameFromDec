@@ -1,7 +1,8 @@
 #include "../../Main.h"
 //#include "../../Scene/Game.h"
-#include "FenceManager.h"
+#include "FenceBase.h"
 #include "Fence.h"
+#include "FenceManager.h"
 
 FenceManager::~FenceManager()
 {
@@ -21,10 +22,15 @@ FenceManager::~FenceManager()
 //	}
 //}
 
-void FenceManager::SpawnFence(Vector3 pos, Vector3 rot)
+void FenceManager::SpawnFence(int handle, int id, Vector3 pos, Vector3 rot)
 {
-	// 指定した位置に生成
-	fences_.emplace_back(new Fence(pos, rot));
+	// 指定したモデルを指定した位置、向きに生成
+	switch (id)
+	{
+	case 1:
+		fences_.emplace_back(new Fence(handle, pos, rot));
+		break;
+	}
 }
 
 void FenceManager::Update()
@@ -49,7 +55,7 @@ void FenceManager::Render()
 	}
 }
 
-std::vector<Fence*> FenceManager::GetterFenceInfos() const
+std::vector<FenceBase*> FenceManager::GetterFenceInfos() const
 {
 	return fences_;
 }

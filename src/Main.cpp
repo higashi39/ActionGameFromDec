@@ -26,14 +26,25 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	SetOutApplicationLogValidFlag(FALSE);
 	ChangeWindowMode(TRUE);
 	SetMainWindowText("MyBaseProject");
-	SetBackgroundColor(100, 100, 100);
+	//SetBackgroundColor(100, 100, 100);
+	SetBackgroundColor(135, 206, 250);
 
 	SetDoubleStartValidFlag(TRUE);
 	SetAlwaysRunFlag(TRUE);
 
 	SetGraphMode(SCREEN_W, SCREEN_H, 32);
+	SetUseDirect3DVersion(DX_DIRECT3D_11);
 
 	if (DxLib_Init() == -1)	return -1;
+
+	if (Effekseer_Init(8000) == -1)
+	{
+		DxLib_End();
+		return -1;
+	}
+	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
+
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
 	SetDrawScreen(DX_SCREEN_BACK);
 	SetTransColor(255, 0, 255);
@@ -58,6 +69,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	manager->scene = new Game(manager);
 
 	manager->Init();
+
+	// エフェクトリソースを読み込む。
+	// 読み込む時に大きさを指定する。
+	int effectResourceHandle = LoadEffekseerEffect("Laser01.efkefc", 1.0f);
+	// エフェクトを再生する。
+	int playingEffectHandle = PlayEffekseer3DEffect(effectResourceHandle);
+	// 再生中のエフェクトを移動する。
+	float position_x = 0.0f;
+	float position_y = 0.0f;
+	SetPosPlayingEffekseer3DEffect(playingEffectHandle, position_x, position_y, 0);
+	SetRotationPlayingEffekseer3DEffect(playingEffectHandle, 0, TO_RADIAN(90), 0);
 
 	while (TRUE)
 	{
@@ -84,7 +106,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// ゲームループ
 		manager->Update();
+		// Effekseerにより再生中のエフェクトを更新する。
+		UpdateEffekseer3D();
+
 		manager->Render();
+		// Effekseerにより再生中のエフェクトを描画する。
+		DrawEffekseer3D();
 
 		BeforeMouseX = NowMouseX;
 		BeforeMouseY = NowMouseY;
@@ -97,6 +124,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// 終了
 	delete manager;
+
+	// エフェクトリソースを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
+	DeleteEffekseerEffect(effectResourceHandle);
+
+	// Effekseerを終了する。
+	Effkseer_End();
 
 	DxLib_End();
 	return 0;

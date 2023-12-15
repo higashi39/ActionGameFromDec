@@ -4,18 +4,21 @@
 
 #include "../../../../System/Hit.h"
 
-EnemyPatrol::EnemyPatrol(Vector3 pos, int id)
+EnemyPatrol::EnemyPatrol(int handle, Vector3 pos,Vector3 rot, int id, Vector3 patrol_pos1, Vector3 patrol_pos2)
 {
 	// モデルデーター格納
 	object_model_ = new int;
-	*object_model_ = MV1LoadModel("data/enemy02/model/Enemy02.mv1");
+	*object_model_ = MV1DuplicateModel(handle);
 
 	// 各変数の設定(初期化)
 	object_position_ = pos;	// 位置
+	object_rotate_ = rot;	// 向き
 	object_scale_.set(0.05f, 0.05f, 0.05f);	// 大きさ
 
-	patrol_pos1_.set(0.0f, 0.0f, 0.3f);
-	patrol_pos2_.set(0.0f, 0.0f, 10.0f);
+	// 巡回地点の設定
+	patrol_pos1_ = patrol_pos1;
+	patrol_pos2_ = patrol_pos2;
+
 	object_position_ = patrol_pos1_;	// 位置
 	check_patrol_ = 0;
 	turn_cool_time_ = 0.0f;
@@ -30,12 +33,13 @@ EnemyPatrol::EnemyPatrol(Vector3 pos, int id)
 	FetchObjectModel(*object_model_);
 	// キャラクターにつけたいアニメーション情報を設定する
 	SettingAnimation({ {"idle", "data/enemy01/animation/Idle.mv1", 0, 0.0f, 0.3f},
+				 	   {"walk", "data/enemy01/animation/Walk.mv1", 0, 0.0f, 0.3f},
 		});
 	// 自身のモデルに各アニメーションをアタッチする
 	AttachAnimation();
 
-	// HP情報の初期化
-	hp_.Init();
+	//// HP情報の初期化
+	//hp_.Init();
 }
 
 EnemyPatrol::~EnemyPatrol()
@@ -48,11 +52,10 @@ EnemyPatrol::~EnemyPatrol()
 
 void EnemyPatrol::Update()
 {
-	// 生存フラグが立っていなければ、以降の更新処理は行わない
-	if (!hp_.IsSurvice())	return;
-
-	// HP情報の更新処理
-	hp_.Update(object_position_, 12.0f);
+	//// 生存フラグが立っていなければ、以降の更新処理は行わない
+	//if (!hp_.IsSurvice())	return;
+	//// HP情報の更新処理
+	//hp_.Update(object_position_, 12.0f);
 
 	// 村人との距離を求めて、一番近い村人を求める
 	SearchVillagers();
@@ -112,8 +115,8 @@ void EnemyPatrol::Update()
 	{
 		// ステータスを「攻撃を受ける」にする
 		enemy_status = EnemyStatus::Damage;
-		// HPを減らす
-		hp_.SetterIsDamaged(10.0f);
+		//// HPを減らす
+		//hp_.SetterIsDamaged(10.0f);
 	}
 
 	//---------------------------------------------------------

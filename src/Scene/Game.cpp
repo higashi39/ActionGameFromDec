@@ -25,7 +25,7 @@
 #define IS_USE_MAP 0
 
 Game::Game(SceneManager* p_manager) : Scene(p_manager), count_gamestart(180), is_gamestart(true),
-timelimit_toframe_(10800), score_(0)
+timelimit_toframe_(10800/*1800*/), score_(0)
 {
 	stage_ = 0;
 
@@ -39,6 +39,12 @@ timelimit_toframe_(10800), score_(0)
 	villager_manage = new VillagerManager();	// 村人(保護対象)キャラクター管理
 	enemy_manage = new EnemyManager();								// 敵キャラクター管理
 	sword01 = new Sword01();										// 武器１
+
+	// モデルの読み込み
+	handle_villager_ = MV1LoadModel("data/villager/model/Mouse.mv1");		// 村人
+	handle_enemy1_ = MV1LoadModel("data/enemy01/model/Enemy01.mv1");		// 敵（停止型）
+	handle_enemy1_ = MV1LoadModel("data/enemy02/model/Enemy02.mv1");		// 敵（巡回型）
+	handle_fence_ = MV1LoadModel("data/stage/fence/fence.mv1");				// 柵
 
 	// ステージ選択で選ばれたステージを取得
 	// そのステージのCSVファイルを読み込み
@@ -81,14 +87,15 @@ void Game::Update()
 	{
 	case GameStatus::GameReady:				// ゲーム開始前
 		// ゲーム開始前のカウントダウン処理
-		is_game = true;
 		GameStartcountDown();
 		break;
 	case GameStatus::GamePlay:				// ゲームプレイ
+		is_game = true;
 		// ゲームタイム処理
 		GameTimeUpdate();
 		break;
 	case GameStatus::GameFinish:			// ゲーム終了
+		is_game = false;
 		// ゲーム終了処理
 		TimeUp();
 		break;
@@ -258,14 +265,17 @@ void Game::LoadCSVFile(std::string file_path)
 
 		int start_num = 0;		// 調べ始める位置
 		int comma_num = 0;		// カンマの数
+		int max_comma_num = 7;
 
 		// スポーンの設定するために各情報を格納する変数を作る
 		int counter = 0;
 		int type = 0;						// 種類
 		Vector3 pos = { 0.0f,0.0f,0.0f };	// 位置
 		Vector3 rot = { 0.0f,0.0f,0.0f };	// 向き
+		Vector3  patrol_pos1 = { 0.0f,0.0f,0.0f };
+		Vector3  patrol_pos2 = { 0.0f,0.0f,0.0f };
 
-		while (comma_num < 7)
+		while (comma_num < max_comma_num)
 		{
 			// start_numの位置からのカンマの位置を調べる
 			std::size_t comma_position = line.find(',', start_num);
@@ -274,32 +284,61 @@ void Game::LoadCSVFile(std::string file_path)
 
 			switch (counter)
 			{
-			case 0:			// キャラクターの種類
+			case 0:				// キャラクターの種類
 				type = std::stoi(cut_str);
+				// 生成するオブジェクトが敵（巡回型）であれば最大読み取りのコンマ数を13にする
+				if (type == 4)
+				{
+					max_comma_num = 13;
+				}
 				++comma_num;
 				break;
-			case 1:			// Ｘ座標
+			case 1:				// Ｘ座標
 				pos.x = std::stoi(cut_str);
 				++comma_num;
 				break;
-			case 2:			// Ｙ座標
+			case 2:				// Ｙ座標
 				pos.y = std::stoi(cut_str);
 				++comma_num;
 				break;
-			case 3:			// Ｚ座標
+			case 3:				// Ｚ座標
 				pos.z = std::stoi(cut_str);
 				++comma_num;
 				break;
-			case 4:			// Ⅹ角度
+			case 4:				// Ⅹ角度
 				rot.x = std::stoi(cut_str);
 				++comma_num;
 				break;
-			case 5:			// Ｙ角度
+			case 5:				// Ｙ角度
 				rot.y = std::stoi(cut_str);
 				++comma_num;
 				break;
-			case 6:			// Ｚ角度
+			case 6:				// Ｚ角度
 				rot.z = std::stoi(cut_str);
+				++comma_num;
+				break;
+			case 7:				// 巡回折り返し地点１のⅩ座標
+				patrol_pos1.x = std::stoi(cut_str);
+				++comma_num;
+				break;
+			case 8:				// 巡回折り返し地点１のＹ座標
+				patrol_pos1.y = std::stoi(cut_str);
+				++comma_num;
+				break;
+			case 9:				// 巡回折り返し地点１のＺ座標
+				patrol_pos1.z = std::stoi(cut_str);
+				++comma_num;
+				break;
+			case 10:			// 巡回折り返し地点２のⅩ座標
+				patrol_pos2.x = std::stoi(cut_str);
+				++comma_num;
+				break;
+			case 11:			// 巡回折り返し地点２のＹ座標
+				patrol_pos2.y = std::stoi(cut_str);
+				++comma_num;
+				break;
+			case 12:			// 巡回折り返し地点２のＺ座標
+				patrol_pos2.z = std::stoi(cut_str);
 				++comma_num;
 				break;
 			}
@@ -309,7 +348,7 @@ void Game::LoadCSVFile(std::string file_path)
 			// start_numに(調べたカンマの位置＋１)を代入する
 			start_num = comma_position + 1;
 		}
-		CreateStage(type, pos, rot);
+		CreateStage(type, pos, rot, patrol_pos1, patrol_pos2);
 		// データはカンマ区切りなので、これではうまくいかない
 		//std::stringstream ss(line);
 		//ss >> type >> pos.x >> pos.y >> pos.z;
@@ -360,7 +399,7 @@ void Game::CalculateMapChip()
 }
 
 
-void Game::CreateStage(int type, Vector3 pos, Vector3 rot)
+void Game::CreateStage(int type, Vector3 pos, Vector3 rot, Vector3 pat_pos1, Vector3 pat_pos2)
 {
 	switch (type)
 	{
@@ -369,14 +408,14 @@ void Game::CreateStage(int type, Vector3 pos, Vector3 rot)
 	case 1:	// ゴール
 		break;
 	case 2:	// 村人
-		villager_manage->SpawnVillager(pos);			// スポナー生成
+		villager_manage->SpawnVillager(handle_villager_, pos);			// スポナー生成
 		//villager_manage->ObjectInitializeSetting(0);		// キャラクター設定
 		break;
 	case 3:	// 敵(停止型)
-		enemy_manage->SpawnEnemy(EnemyType::TypeStop, pos);
+		enemy_manage->SpawnEnemy(handle_enemy1_,EnemyType::TypeStop, pos, rot, pat_pos1, pat_pos2);
 		break;
 	case 4:	// 敵(巡回型)
-		enemy_manage->SpawnEnemy(EnemyType::TypePatrol, pos);		// キャラクター設定
+		enemy_manage->SpawnEnemy(handle_enemy2_,EnemyType::TypePatrol, pos, rot, pat_pos1, pat_pos2);		// キャラクター設定
 		break;
 	case 5: // 岩１
 		rock_manage->CreateObject(1, pos, rot);
@@ -393,9 +432,9 @@ void Game::CreateStage(int type, Vector3 pos, Vector3 rot)
 	case 9: // 岩５
 		rock_manage->CreateObject(5, pos, rot);
 		break;
-
 	case 10: // 柵
-		fence_manage->SpawnFence(pos, rot);
+		fence_manage->SpawnFence(handle_fence_,1, pos, rot);
+		break;
 	}
 }
 
@@ -430,6 +469,8 @@ void Game::RenderGameStartCountDown()
 
 void Game::GameTimeUpdate()
 {
+	timelimit_toframe_ += villager_manage->AddTimeLimit();
+
 	// ゲームタイムを減らす
 	timelimit_toframe_--;
 
