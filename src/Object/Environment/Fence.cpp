@@ -14,8 +14,7 @@ Fence::Fence(int handle, Vector3 create_pos, Vector3 create_rot)
 	object_position_ = create_pos;				// 位置
 	object_rotate_.y = TO_RADIAN(create_rot.y);	// 向き
 	object_scale_.set(0.01f, 0.01f, 0.01f);		// 大きさ
-
-	collision_size_.set(5.5f, 0.0f, 2.5f);		// 当たり判定用モデルサイズ
+	collision_size_.set(5.5f, 5.0f, 2.5f);		// 当たり判定用モデルサイズ
 
 	size_pos[0].set(-collision_size_.x, collision_size_.y, -collision_size_.z);		// 左上
 	size_pos[1].set(+collision_size_.x, collision_size_.y, -collision_size_.z);		// 右上

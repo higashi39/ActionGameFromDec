@@ -110,6 +110,9 @@ void VillagerManager::HitOtherVillagers()
 
 			if (len < 3.0f)
 			{
+				// ƒtƒ‰ƒO‚ð—§‚Ä‚é
+				v_obj2->SetterIsHitVillager(true);
+
 				Vector3 dir = vec * -1.0f;
 				dir.SetLength(3.0f);
 
@@ -117,6 +120,10 @@ void VillagerManager::HitOtherVillagers()
 				//v_obj2->SetterMyPosition(HitCollision(v_obj2->GetterMyPosition(), v_obj2->GetterMyBeforePosition(), { 3.0f,3.0f,3.0f },
 				//	v_obj1->GetterMyPosition(), { 3.0f,3.0f,3.0f }));
 
+			}
+			else
+			{
+				v_obj2->SetterIsHitVillager(false);
 			}
 		}
 	}

@@ -87,7 +87,9 @@ public:
 	// set_pos : 設定する位置
 	void SetterMyPosition(Vector3 set_pos);
 	// 敵との接触状態を設定する
-	void SetterIsCollidingWithEnemy(bool is_colliding);
+	void SetterIsHitEnemy(bool ishit);
+	// 村人同士の接触状態を設定する
+	void SetterIsHitVillager(bool ishit);
 	//---------------------------------
 
 	int add_time_ = 0;
@@ -102,7 +104,11 @@ private:
 	float length_with_player_;			// プレイヤーとの距離
 	bool is_player_follow_;				// プレイヤーについていくかどうか
 
-	bool is_colliding_with_enemy_;		// 敵と接触しているかどうか
+	// 当たり判定関係
+	// 接触しているかどうか
+	bool ishit_enemy_ = false;		// 敵
+	bool ishit_fence_ = false;		// 柵
+	bool ishit_villager_ = false;	// 村人
 
 	bool is_search_ = true;				// プレイヤーを探索するかどうか
 	bool is_goal_ = false;				// ゴールしたかどうか

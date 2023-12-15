@@ -25,7 +25,7 @@ Villager::Villager(int handle, Vector3 pos, int id)
 	// 各変数の設定(初期化)
 	object_position_ = pos;	// 位置
 	object_scale_.set(0.05f, 0.05f, 0.05f);		// 大きさ
-	object_box_size_.set(3.0f, 0.0f, 3.0f);
+	object_box_size_.set(3.0f, 3.0f, 3.0f);
 
 	before_pos_ = pos;
 
@@ -36,8 +36,6 @@ Villager::Villager(int handle, Vector3 pos, int id)
 	vector_with_player_.set(0.0f, 0.0f, 0.0f);
 	length_with_player_ = 0.0f;
 	is_player_follow_ = false;
-
-	is_colliding_with_enemy_ = false;
 
 	//-------------------------------------
 	// アニメーション関係
@@ -162,15 +160,20 @@ void Villager::Update()
 	// 柵
 	for (auto& f_obj : fences_)
 	{
-		if (CheckBoxHit3D(object_position_, object_box_size_, f_obj->GetterFencePosition(), f_obj->GetterFenceCollisionSize()))
+		if (CheckBoxHit3D({ object_position_.x,object_position_.y + 3.0f,object_position_.z }, object_box_size_, f_obj->GetterFencePosition(), f_obj->GetterFenceCollisionSize()))
 		{
-			object_position_ = HitCollision(object_position_, before_pos_, object_box_size_,
+			// フラグを立てる
+			//ishit_fence_ = true;
+			printfDx("柵と当たりました\n");
+
+			object_position_ = HitCollision({ object_position_.x,object_position_.y + 3.0f,object_position_.z }, before_pos_, object_box_size_,
 				f_obj->GetterFencePosition(), f_obj->GetterFenceCollisionSize());
 			object_position_.y = 0.0f;
 		}
-
-		// 柵と村人の距離を計る
-
+		else
+		{
+			//ishit_fence_ = false;
+		}
 	}
 
 	// ゴール
@@ -186,6 +189,8 @@ void Villager::Update()
 	//value = static_cast<int>(villager_status);
 	//printfDx("status : %d\n", value);
 	//printfDx("length_with_player_ : %f\n", length_with_player_);
+	//printfDx("ishit_fence : %d\n", ishit_fence_);
+	//printfDx("ishit_villager : %d\n", ishit_villager_);
 #endif
 }
 
@@ -197,6 +202,9 @@ void Villager::Render()
 	MV1SetScale(*object_model_, VGet(object_scale_.x, object_scale_.y, object_scale_.z));
 	MV1SetRotationXYZ(*object_model_, VGet(object_rotate_.x, object_rotate_.y + TO_RADIAN(180.0f), object_rotate_.z));
 	MV1DrawModel(*object_model_);
+
+	DrawSphere3D({ object_position_.x,object_position_.y + 6.0f, object_position_.z }, 3.0f,8,
+		GetColor(255, 255, 0), GetColor(255, 255, 0), FALSE);
 }
 
 void Villager::SetPlayerInfomation(const Vector3& p_pos)
@@ -298,7 +306,7 @@ int Villager::GetterMyID() const
 
 bool Villager::GetterIsCollidingWithEnemy() const
 {
-	return is_colliding_with_enemy_;
+	return ishit_enemy_;
 }
 
 bool Villager::GetterIsGoal() const
@@ -321,9 +329,14 @@ void Villager::SetterMyPosition(Vector3 set_pos)
 	object_position_ = set_pos;
 }
 
-void Villager::SetterIsCollidingWithEnemy(bool is_colliding)
+void Villager::SetterIsHitEnemy(bool ishit)
 {
-	is_colliding_with_enemy_ = is_colliding;
+	ishit_enemy_ = ishit;
+}
+
+void Villager::SetterIsHitVillager(bool ishit)
+{
+	ishit_villager_ = ishit;
 }
 
 void Villager::SetterStatus(VillagerStatus status)
